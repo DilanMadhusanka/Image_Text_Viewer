@@ -15,7 +15,7 @@ public class LoginController {
 	@Autowired
 	LoginRepository loginRepository;
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public void saveData(@RequestParam String username, @RequestParam String password) {
 		loginRepository.save(new LoginModel(username, password));
 	}
