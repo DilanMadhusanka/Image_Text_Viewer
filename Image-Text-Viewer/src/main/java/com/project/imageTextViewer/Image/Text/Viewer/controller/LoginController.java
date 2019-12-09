@@ -2,21 +2,19 @@ package com.project.imageTextViewer.Image.Text.Viewer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.imageTextViewer.Image.Text.Viewer.jpa.LoginRepository;
-import com.project.imageTextViewer.Image.Text.Viewer.model.LoginModel;
+import com.project.imageTextViewer.Image.Text.Viewer.service.VerificationService;
 
 @RestController
 public class LoginController {
 	
 	@Autowired
-	LoginRepository loginRepository;
+	VerificationService verificationService;
 
-	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public void saveData(@RequestParam String username, @RequestParam String password) {
-		loginRepository.save(new LoginModel(username, password));
+	@RequestMapping("/login")
+	public boolean handleLoginRequest(@RequestParam String username, @RequestParam String password) {
+		return verificationService.validateUser(username, password);
 	}
 }

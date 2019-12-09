@@ -19,11 +19,6 @@ public class ImageController {
 	
 	@Autowired
 	ImageRepository imageRepository;
-
-	@RequestMapping("/save")
-	public String getStr() {
-		return "Hi";
-	}
 	
 	@RequestMapping("/read")
 	public String readText(@RequestParam String filePath) {
