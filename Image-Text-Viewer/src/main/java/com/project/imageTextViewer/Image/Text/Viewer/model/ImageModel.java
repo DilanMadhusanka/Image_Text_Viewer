@@ -1,5 +1,7 @@
 package com.project.imageTextViewer.Image.Text.Viewer.model;
 
+import java.io.File;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,19 +18,19 @@ public class ImageModel {
 	private String text;
 	
 	@Column(name="image_path")
-	private String image_path;
+	private File image_path;
 	
 	public ImageModel() {
 		
 	}
 
-	public ImageModel(String text, String image_path) {
+	public ImageModel(String text, File image_path) {
 		super();
 		this.text = text;
 		this.image_path = image_path;
 	}
 	
-	public ImageModel(int id, String text, String image_path) {
+	public ImageModel(int id, String text, File image_path) {
 		super();
 		this.id = id;
 		this.text = text;
@@ -51,11 +53,11 @@ public class ImageModel {
 		this.text = text;
 	}
 
-	public String getImage_path() {
+	public File getImage_path() {
 		return image_path;
 	}
 
-	public void setImage_path(String image_path) {
+	public void setImage_path(File image_path) {
 		this.image_path = image_path;
 	}
 	
