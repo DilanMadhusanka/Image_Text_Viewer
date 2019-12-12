@@ -1,21 +1,17 @@
 package com.project.imageTextViewer.Image.Text.Viewer.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name="login_data")
+@Document
 public class LoginModel {
 
 	@Id
-	private int id;
+	private ObjectId id;
 	
-	@Column(name="username")
 	private String username;
 	
-	@Column(name="password")
 	private String password;
 	
 	public LoginModel() {
@@ -28,18 +24,18 @@ public class LoginModel {
 		this.password = password;
 	}
 
-	public LoginModel(int id, String username, String password) {
+	public LoginModel(ObjectId id, String username, String password) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 	}
 
-	public int getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 

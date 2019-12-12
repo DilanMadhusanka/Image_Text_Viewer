@@ -30,6 +30,8 @@ public class ReadText {
             g.dispose();
 
             String result = instance.doOCR(newImage);
+            imageFile.delete();
+            
             return result;
 
         } catch (TesseractException | IOException e) {
