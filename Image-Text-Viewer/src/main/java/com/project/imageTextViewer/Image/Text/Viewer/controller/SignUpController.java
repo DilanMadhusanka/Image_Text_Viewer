@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.imageTextViewer.Image.Text.Viewer.jpa.LoginRepository;
 import com.project.imageTextViewer.Image.Text.Viewer.model.LoginModel;
+import com.project.imageTextViewer.Image.Text.Viewer.service.LoginService;
+import com.project.imageTextViewer.Image.Text.Viewer.service.UserEmailSearch;
 
 @RestController
 public class SignUpController {
@@ -21,18 +23,31 @@ public class SignUpController {
 	JavaMailSender javaMailSender;
 	
 	@Autowired
+	UserEmailSearch userEmailSearch;
+	
+	@Autowired
 	LoginRepository loginRepository;
 
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public void saveData(@RequestParam String email, @RequestParam String password) throws MessagingException {
-		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-		helper.setTo(email);
-		helper.setSubject("Verfication Email");
-		helper.setText("Click here to verify your account<br/><p><a href='https://www.google.com/'>testing link<a/><p/>", true);
+	public String saveData(@RequestParam String email, @RequestParam String password) throws MessagingException {
 		
-		javaMailSender.send(mimeMessage);
+		if(userEmailSearch.searchEmail(email) == false) {
+			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setTo(email);
+			helper.setSubject("Verfication Email");
+			helper.setText("Click here to verify your account<br/><p><a href='https://www.google.com/'>testing link<a/><p/>", true);
+			
+			javaMailSender.send(mimeMessage);
+			
+			loginRepository.save(new LoginModel(email, password));
+			
+			return "success";
+		}
 		
-		loginRepository.save(new LoginModel(email, password));
+		else {
+			return "fail";
+		}
+		
 	}
 }
