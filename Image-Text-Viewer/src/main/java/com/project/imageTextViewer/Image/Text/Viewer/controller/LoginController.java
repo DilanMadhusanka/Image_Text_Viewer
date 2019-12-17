@@ -14,7 +14,7 @@ public class LoginController {
 	VerificationService verificationService;
 
 	@RequestMapping("/login")
-	public boolean handleLoginRequest(@RequestParam String username, @RequestParam String password) {
-		return verificationService.validateUser(username, password);
+	public boolean handleLoginRequest(@RequestParam String email, @RequestParam String password) {
+		return verificationService.validateUser(email, password);
 	}
 }

@@ -16,7 +16,7 @@ public class VerificationService {
 	public boolean validateUser(String username, String password) {
 		List<LoginModel> lists = loginService.getLoginDetailsList();
 		for(LoginModel list : lists) {
-			if(username.equalsIgnoreCase(list.getUsername().toString()) && password.equals(list.getPassword().toString())) {
+			if(username.equalsIgnoreCase(list.getemail().toString()) && password.equals(list.getPassword().toString())) {
 				return true;
 			}
 		}
