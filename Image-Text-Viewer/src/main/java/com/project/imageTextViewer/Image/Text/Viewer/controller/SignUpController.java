@@ -1,5 +1,7 @@
 package com.project.imageTextViewer.Image.Text.Viewer.controller;
 
+import java.util.UUID;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.imageTextViewer.Image.Text.Viewer.jpa.LoginRepository;
 import com.project.imageTextViewer.Image.Text.Viewer.model.LoginModel;
-import com.project.imageTextViewer.Image.Text.Viewer.service.LoginService;
 import com.project.imageTextViewer.Image.Text.Viewer.service.UserEmailSearch;
 
 @RestController
@@ -27,20 +28,27 @@ public class SignUpController {
 	
 	@Autowired
 	LoginRepository loginRepository;
+	
+	UUID uuid;
+	private String email;
+	private String password;
 
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public String saveData(@RequestParam String email, @RequestParam String password) throws MessagingException {
 		
 		if(userEmailSearch.searchEmail(email) == false) {
+		
+			uuid = UUID.randomUUID();
+			this.email = email;
+			this.password = password;
+			
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setTo(email);
 			helper.setSubject("Verfication Email");
-			helper.setText("Click here to verify your account<br/><p><a href='https://www.google.com/'>testing link<a/><p/>", true);
+			helper.setText("Click here to verify your account:"+ "http://localhost:8080/verifyResponse?token="+uuid);
 			
 			javaMailSender.send(mimeMessage);
-			
-			loginRepository.save(new LoginModel(email, password));
 			
 			return "success";
 		}
@@ -49,5 +57,15 @@ public class SignUpController {
 			return "fail";
 		}
 		
+	}
+	
+	@RequestMapping(value="/verifyResponse", method = RequestMethod.GET)
+	public String getVerify(@RequestParam("token") String confirm) {
+		if(confirm.equals(uuid.toString())) {
+			loginRepository.save(new LoginModel(email, password));
+			return "Verified";
+		}
+		else
+			return "Falied";
 	}
 }
