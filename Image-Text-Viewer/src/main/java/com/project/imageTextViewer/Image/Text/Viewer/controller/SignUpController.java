@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,13 +35,13 @@ public class SignUpController {
 	private String password;
 
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
-	public String saveData(@RequestParam String email, @RequestParam String password) throws MessagingException {
+	public String saveData(@RequestBody LoginModel loginModel) throws MessagingException {
 		
-		if(userEmailSearch.searchEmail(email) == false) {
+		if(userEmailSearch.searchEmail(loginModel.getemail()) == false) {
 		
 			uuid = UUID.randomUUID();
-			this.email = email;
-			this.password = password;
+			this.email = loginModel.getemail();
+			this.password = loginModel.getPassword();
 			
 			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
