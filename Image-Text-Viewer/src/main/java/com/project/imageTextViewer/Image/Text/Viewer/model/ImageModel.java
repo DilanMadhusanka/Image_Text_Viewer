@@ -1,7 +1,5 @@
 package com.project.imageTextViewer.Image.Text.Viewer.model;
 
-import java.io.File;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,23 +12,23 @@ public class ImageModel {
 	
 	private String text;
 	
-	private File image_path;
+	private byte[] image;
 
 	public ImageModel() {
 		
 	}
 
-	public ImageModel(String text, File image_path) {
+	public ImageModel(String text, byte[] image) {
 		super();
 		this.text = text;
-		this.image_path = image_path;
+		this.image = image;
 	}
 	
-	public ImageModel(ObjectId id, String text, File image_path) {
+	public ImageModel(ObjectId id, String text, byte[] image) {
 		super();
 		this.id = id;
 		this.text = text;
-		this.image_path = image_path;
+		this.image = image;
 	}
 
 	public ObjectId getId() {
@@ -49,12 +47,12 @@ public class ImageModel {
 		this.text = text;
 	}
 
-	public File getImage_path() {
-		return image_path;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setImage_path(File image_path) {
-		this.image_path = image_path;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	
 }

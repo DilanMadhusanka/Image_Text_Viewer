@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +36,7 @@ public class SignUpController {
 	private String password;
 
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
+	@CrossOrigin(origins = "*")
 	public String saveData(@RequestBody LoginModel loginModel) throws MessagingException {
 		
 		if(userEmailSearch.searchEmail(loginModel.getemail()) == false) {
@@ -61,6 +63,7 @@ public class SignUpController {
 	}
 	
 	@RequestMapping(value="/verifyResponse", method = RequestMethod.GET)
+	@CrossOrigin(origins = "*")
 	public String getVerify(@RequestParam("token") String confirm) {
 		if(confirm.equals(uuid.toString())) {
 			loginRepository.save(new LoginModel(email, password));
